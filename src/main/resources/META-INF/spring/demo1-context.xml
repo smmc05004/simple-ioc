@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="googleMail" class="com.sample.demo1.GoogleMailService">
+		<!-- 기본자료형 값 입력시에는 value=""안에 입력 -->
+		<!-- 객체 입력시에는 ref=""안에 입력 -->
+		<property name="username" value="hong" />
+		<property name="password" value="zxcv1234" />
+		<!-- 3000 String type으로 적어도 int로 변환되서 입력됨 -->
+		<property name="port" value="3000" />
+		<property name="host" value="smtp.google.com" />
+	</bean>
+	
+	
+	<!-- setter injection -->
+	<bean id="sampleService" class="com.sample.demo1.SampleService">
+		<property name="mailService" ref="googleMail" />
+	</bean>
+	
+	
+	<!-- constructor injection -->
+	<bean id="sampleService2" class="com.sample.demo1.SampleService">
+	<!-- 생성자 매개변수 개수만큼 필요 -->
+		<constructor-arg name="mailService" ref="googleMail" />
+		<constructor-arg name="maxMailSize" value="10000" />
+	</bean>
+	
+	
+	<bean id="sampleService3" class="com.sample.demo1.SampleService">
+		<property name="mailService">
+			<bean class="com.sample.demo1.GoogleMailService">
+				<property name="username" value="lee" />
+				<property name="password" value="zxcv1234" />
+				<property name="port" value="3000" />
+				<property name="host" value="smtp.google.com" />
+			</bean>
+		</property>
+	</bean>
+	
+</beans>
